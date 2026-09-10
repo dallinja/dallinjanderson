@@ -13,7 +13,12 @@ const metaModules = import.meta.glob<{ default: unknown }>(
   { eager: true },
 )
 
-const componentLoaders = import.meta.glob<{ default: ComponentType }>(
+// Typed as possibly-missing: the glob record is total at build time, but a
+// slug arriving from the URL is not guaranteed to be in it.
+const componentLoaders: Record<
+  string,
+  (() => Promise<{ default: ComponentType }>) | undefined
+> = import.meta.glob<{ default: ComponentType }>(
   './experiments/*/experiment.tsx',
 )
 
