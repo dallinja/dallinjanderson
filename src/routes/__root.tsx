@@ -62,9 +62,11 @@ function RootDocument({ children }: { children: React.ReactNode }) {
  */
 function RootComponent() {
   const matches = useMatches()
-  const fullBleed = matches.some(
-    (match) => (match.staticData as { fullBleed?: boolean }).fullBleed,
-  )
+  const fullBleed = matches.some((match) => {
+    const staticData = match.staticData as { fullBleed?: boolean } | undefined
+    const loaderData = match.loaderData as { fullBleed?: boolean } | undefined
+    return Boolean(staticData?.fullBleed ?? loaderData?.fullBleed)
+  })
 
   if (fullBleed) return <Outlet />
 

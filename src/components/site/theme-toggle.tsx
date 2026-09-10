@@ -1,13 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Monitor, Moon, Sun } from 'lucide-react'
-import {
-  THEMES,
-  applyTheme,
-  readStoredTheme,
-  storeTheme
-  
-} from '#/lib/theme'
-import type {Theme} from '#/lib/theme';
+import { THEMES, applyTheme, readStoredTheme, storeTheme } from '#/lib/theme'
+import type { Theme } from '#/lib/theme'
 import { cn } from '#/lib/utils'
 
 const ICONS = { system: Monitor, light: Sun, dark: Moon } as const

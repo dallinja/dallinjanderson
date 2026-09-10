@@ -1,0 +1,93 @@
+/* Scoped to this experiment only. */
+.motion-tabs {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  padding: 56px 24px;
+  border-radius: 12px;
+  background-color: #0f0f0f;
+  color: rgb(255 255 255);
+  font-family: var(--font-sans);
+}
+
+.motion-tabs__frame {
+  padding: 3px;
+  background: linear-gradient(180deg, #404040, #1b1b1b);
+  border-radius: 9999px;
+  box-shadow: inset 0 0 4px 0 #515151;
+}
+
+.motion-tabs__inner {
+  position: relative;
+  display: flex;
+  background: linear-gradient(0deg, #181818, #222222);
+  padding: 5px;
+  border-radius: 9999px;
+  box-shadow: inset 0 0 4px 0 #0f0f0f;
+}
+
+.motion-tabs__list {
+  display: flex;
+  border-radius: 9999px;
+  anchor-name: --hover;
+  color: rgb(212 212 212);
+  transition: color 150ms ease;
+}
+
+.motion-tabs__tab {
+  z-index: 3;
+  padding: 16px 28px;
+  cursor: pointer;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  border-radius: 9999px;
+}
+
+.motion-tabs__tab.is-active {
+  anchor-name: --active;
+  color: #0f0f0f;
+}
+
+.motion-tabs__tab:hover {
+  anchor-name: --hover;
+}
+
+.motion-tabs__tab.is-active:hover {
+  anchor-name: --active, --hover;
+}
+
+.motion-tabs__bubble {
+  position: absolute;
+  border-radius: 9999px;
+  transition: all 150ms ease;
+  top: anchor(top);
+  right: anchor(right);
+  bottom: anchor(bottom);
+  left: anchor(left);
+}
+
+.motion-tabs__bubble.is-active {
+  z-index: 2;
+  position-anchor: --active;
+  background: linear-gradient(0deg, #b1b1b1, #dfdfdf);
+  box-shadow: inset 0 0 4px 0 #ffffff;
+}
+
+.motion-tabs__bubble.is-hover {
+  z-index: 1;
+  position-anchor: --hover;
+  background: linear-gradient(180deg, #3d3d3d, #272727);
+  box-shadow: inset 0 3px 2px -2px #6f6f6f;
+}
+
+.motion-tabs__note {
+  margin: 0;
+  max-width: 42ch;
+  text-align: center;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: rgb(150 150 150);
+}

@@ -1,28 +1,28 @@
-import { Link, createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
+import { PageHeader } from '#/components/site/page-header'
+import { ExperimentCard } from '#/components/site/experiment-card'
+import { publishedExperiments } from '#/playground/registry'
 
 export const Route = createFileRoute('/playground/')({
   component: PlaygroundIndex,
 })
 
-const SPIKE_SLUGS = ['motion-tabs', 'color-field']
-
 function PlaygroundIndex() {
   return (
-    <div className="p-8">
-      <h1 className="text-4xl font-bold">Playground</h1>
-      <ul className="mt-4">
-        {SPIKE_SLUGS.map((slug) => (
-          <li key={slug}>
-            <Link
-              to="/playground/$slug"
-              params={{ slug }}
-              className="underline"
-            >
-              {slug}
-            </Link>
-          </li>
-        ))}
-      </ul>
+    <div>
+      <PageHeader
+        title="Playground"
+        description="Small interactive things that run right here — tools, toys, visualisations, and experiments that were interesting enough to keep."
+      />
+      {publishedExperiments.length === 0 ? (
+        <p className="text-muted-foreground">Nothing here yet.</p>
+      ) : (
+        <ul className="grid gap-4">
+          {publishedExperiments.map((experiment) => (
+            <ExperimentCard key={experiment.slug} experiment={experiment} />
+          ))}
+        </ul>
+      )}
     </div>
   )
 }
