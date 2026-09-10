@@ -1,0 +1,5 @@
+package-lock.json
+yarn.lock
+.vercel
+.output
+src/routeTree.gen.ts
