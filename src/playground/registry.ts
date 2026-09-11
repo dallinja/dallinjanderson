@@ -1,6 +1,7 @@
-import { experimentMetaSchema  } from './types'
-import type {Experiment} from './types';
-import type { ComponentType } from 'react'
+import { experimentMetaSchema } from './types'
+import type { Experiment } from './types'
+import { lazy } from 'react'
+import type { ComponentType, LazyExoticComponent } from 'react'
 
 /**
  * Experiments are discovered from the filesystem: drop a folder into
@@ -54,29 +55,36 @@ export function getExperiment(slug: string): Experiment | undefined {
   return experiments.find((experiment) => experiment.slug === slug)
 }
 
-const componentCache = new Map<string, ComponentType>()
-
 /**
- * Awaited in the route loader so the component is in hand before render.
- * That keeps experiments code-split without needing Suspense during
- * prerendering.
+ * React.lazy components, cached per slug so the reference is stable across
+ * renders. lazy() works on both sides of the hydration boundary: the server
+ * streams the resolved output, and the client resolves it again from its own
+ * module graph. A module-level "already loaded" cache does NOT work here —
+ * the router reuses serialized SSR loader data on hydration, so the client
+ * cache would still be empty at first render.
  */
-export async function loadExperimentComponent(
+const lazyCache = new Map<string, LazyExoticComponent<ComponentType>>()
+
+export function getExperimentComponent(
   slug: string,
-): Promise<ComponentType> {
-  const cached = componentCache.get(slug)
+): LazyExoticComponent<ComponentType> {
+  const cached = lazyCache.get(slug)
   if (cached) return cached
 
   const loader = componentLoaders[`./experiments/${slug}/experiment.tsx`]
   if (!loader) throw new Error(`No experiment component for slug "${slug}"`)
 
-  const module = await loader()
-  componentCache.set(slug, module.default)
-  return module.default
+  const component = lazy(loader)
+  lazyCache.set(slug, component)
+  return component
 }
 
-export function getLoadedExperimentComponent(
-  slug: string,
-): ComponentType | undefined {
-  return componentCache.get(slug)
+/**
+ * Warms the module in the route loader so the lazy component resolves without
+ * a visible fallback on client navigation.
+ */
+export async function preloadExperimentComponent(slug: string): Promise<void> {
+  const loader = componentLoaders[`./experiments/${slug}/experiment.tsx`]
+  if (!loader) throw new Error(`No experiment component for slug "${slug}"`)
+  await loader()
 }

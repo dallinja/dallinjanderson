@@ -1,18 +1,18 @@
 import { Link, createFileRoute, notFound } from '@tanstack/react-router'
 import { ArrowLeft } from 'lucide-react'
+import { Suspense } from 'react'
 import {
   getExperiment,
-  getLoadedExperimentComponent,
-  loadExperimentComponent,
+  getExperimentComponent,
+  preloadExperimentComponent,
 } from '#/playground/registry'
 
 export const Route = createFileRoute('/playground/$slug')({
   loader: async ({ params }) => {
     const experiment = getExperiment(params.slug)
     if (!experiment) throw notFound()
-    // Awaited here so the component is in hand before render, which keeps
-    // experiments code-split without Suspense during prerendering.
-    await loadExperimentComponent(experiment.slug)
+    // Warms the module so client navigation shows no Suspense fallback.
+    await preloadExperimentComponent(experiment.slug)
     return { experiment, fullBleed: experiment.layout === 'full' }
   },
   head: ({ loaderData }) =>
@@ -29,9 +29,7 @@ export const Route = createFileRoute('/playground/$slug')({
 
 function ExperimentRoute() {
   const { experiment } = Route.useLoaderData()
-  const Component = getLoadedExperimentComponent(experiment.slug)
-
-  if (!Component) return null
+  const Component = getExperimentComponent(experiment.slug)
 
   if (experiment.layout === 'full') {
     return (
@@ -43,7 +41,9 @@ function ExperimentRoute() {
           <ArrowLeft className="size-3" aria-hidden />
           Playground
         </Link>
-        <Component />
+        <Suspense fallback={null}>
+          <Component />
+        </Suspense>
       </div>
     )
   }
@@ -63,7 +63,9 @@ function ExperimentRoute() {
           {experiment.description}
         </p>
       </header>
-      <Component />
+      <Suspense fallback={null}>
+        <Component />
+      </Suspense>
     </article>
   )
 }
