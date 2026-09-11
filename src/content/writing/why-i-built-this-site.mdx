@@ -1,0 +1,36 @@
+import { definePost } from '#/content/types'
+
+export const meta = definePost({
+  title: 'Why I built this site',
+  description:
+    'Notes on building a personal workshop instead of a portfolio, and the decisions that shaped it.',
+  date: '2026-09-10',
+  tags: ['meta', 'tanstack', 'design'],
+})
+
+I did not want a portfolio. A portfolio is a sales document: it exists to
+convince someone to hire you, and it goes stale the moment you stop
+job-hunting. I wanted something closer to a workshop — a place where the
+things I make can accumulate, including the ones that did not work.
+
+## The rule that decided everything
+
+The hardest question turned out to be the simplest-sounding one: what is the
+difference between a "project" and an "experiment"?
+
+The answer I settled on is about _where the thing runs_. An experiment's code
+lives in this repository and runs on this site. A project lives somewhere
+else, and this site only describes it. Significance has nothing to do with
+it — a small, abandoned side project in its own repo is still a project.
+
+It is a mechanical test, which is the point. I never have to make a judgement
+call, and neither does a coding agent.
+
+## Everything is a file
+
+There is no database and no CMS. Writing is MDX in the repo, projects are MDX
+in the repo, and playground experiments are folders of React components. The
+site is prerendered to static HTML at build time, so publishing is a git push.
+
+_Placeholder: add the rest — what you want this site to become, and what you
+have in mind for the playground._

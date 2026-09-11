@@ -38,7 +38,7 @@ src/
   components/
     site/            site-specific components (header, cards, page header)
     ui/              shadcn/ui primitives
-  content/           static content (now.ts)
+  content/           now.ts, plus projects/ and writing/ as .mdx
   playground/
     experiments/     one folder per Experiment
     registry.ts      filesystem discovery
@@ -47,9 +47,18 @@ src/
 docs/
   playground.md      how to add an Experiment
   design-system.md   tokens, type, component conventions
+  content.md         how to add a Project or a Post
   architecture.md    decisions that constrain how this is built
   adr/               architecture decision records
 ```
+
+## Git
+
+- **Never add co-author trailers.** No `Co-Authored-By`, no `Claude-Session`,
+  no "Generated with" lines — in commit messages or PR descriptions. Commits
+  are authored by Dallin.
+- Commit messages explain _why_ a change was made and anything surprising that
+  was hit along the way.
 
 ## Conventions
 
@@ -61,9 +70,8 @@ docs/
   personal site, not a framework.
 - Match the surrounding code. Comments explain _why_, never _what_.
 
-## Not built yet
+## Content
 
-MDX content for Projects and Writing is **not implemented**. The `/projects`
-and `/writing` routes are placeholders with no collection behind them. The
-intended pipeline is `@content-collections/*` with zod-typed frontmatter; do
-not assume it exists.
+Projects and Posts are `.mdx` files under `src/content/`, discovered by glob.
+Filename is the slug; metadata is `export const meta`, not frontmatter. See
+`docs/content.md`.

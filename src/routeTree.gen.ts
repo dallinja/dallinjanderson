@@ -14,7 +14,9 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as PlaygroundIndexRouteImport } from './routes/playground/index'
 import { Route as PlaygroundSlugRouteImport } from './routes/playground/$slug'
 import { Route as ProjectsIndexRouteImport } from './routes/projects/index'
+import { Route as ProjectsProjectRouteImport } from './routes/projects/$project'
 import { Route as WritingIndexRouteImport } from './routes/writing/index'
+import { Route as WritingSlugRouteImport } from './routes/writing/$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -41,9 +43,19 @@ const ProjectsIndexRoute = ProjectsIndexRouteImport.update({
   path: '/projects/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProjectsProjectRoute = ProjectsProjectRouteImport.update({
+  id: '/projects/$project',
+  path: '/projects/$project',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const WritingIndexRoute = WritingIndexRouteImport.update({
   id: '/writing/',
   path: '/writing/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WritingSlugRoute = WritingSlugRouteImport.update({
+  id: '/writing/$slug',
+  path: '/writing/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -51,6 +63,8 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/playground/$slug': typeof PlaygroundSlugRoute
+  '/projects/$project': typeof ProjectsProjectRoute
+  '/writing/$slug': typeof WritingSlugRoute
   '/playground/': typeof PlaygroundIndexRoute
   '/projects/': typeof ProjectsIndexRoute
   '/writing/': typeof WritingIndexRoute
@@ -59,6 +73,8 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/playground/$slug': typeof PlaygroundSlugRoute
+  '/projects/$project': typeof ProjectsProjectRoute
+  '/writing/$slug': typeof WritingSlugRoute
   '/playground': typeof PlaygroundIndexRoute
   '/projects': typeof ProjectsIndexRoute
   '/writing': typeof WritingIndexRoute
@@ -68,6 +84,8 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/playground/$slug': typeof PlaygroundSlugRoute
+  '/projects/$project': typeof ProjectsProjectRoute
+  '/writing/$slug': typeof WritingSlugRoute
   '/playground/': typeof PlaygroundIndexRoute
   '/projects/': typeof ProjectsIndexRoute
   '/writing/': typeof WritingIndexRoute
@@ -78,6 +96,8 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/playground/$slug'
+    | '/projects/$project'
+    | '/writing/$slug'
     | '/playground/'
     | '/projects/'
     | '/writing/'
@@ -86,6 +106,8 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/playground/$slug'
+    | '/projects/$project'
+    | '/writing/$slug'
     | '/playground'
     | '/projects'
     | '/writing'
@@ -94,6 +116,8 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/playground/$slug'
+    | '/projects/$project'
+    | '/writing/$slug'
     | '/playground/'
     | '/projects/'
     | '/writing/'
@@ -103,6 +127,8 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   PlaygroundSlugRoute: typeof PlaygroundSlugRoute
+  ProjectsProjectRoute: typeof ProjectsProjectRoute
+  WritingSlugRoute: typeof WritingSlugRoute
   PlaygroundIndexRoute: typeof PlaygroundIndexRoute
   ProjectsIndexRoute: typeof ProjectsIndexRoute
   WritingIndexRoute: typeof WritingIndexRoute
@@ -145,11 +171,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProjectsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/projects/$project': {
+      id: '/projects/$project'
+      path: '/projects/$project'
+      fullPath: '/projects/$project'
+      preLoaderRoute: typeof ProjectsProjectRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/writing/': {
       id: '/writing/'
       path: '/writing'
       fullPath: '/writing/'
       preLoaderRoute: typeof WritingIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/writing/$slug': {
+      id: '/writing/$slug'
+      path: '/writing/$slug'
+      fullPath: '/writing/$slug'
+      preLoaderRoute: typeof WritingSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -159,6 +199,8 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   PlaygroundSlugRoute: PlaygroundSlugRoute,
+  ProjectsProjectRoute: ProjectsProjectRoute,
+  WritingSlugRoute: WritingSlugRoute,
   PlaygroundIndexRoute: PlaygroundIndexRoute,
   ProjectsIndexRoute: ProjectsIndexRoute,
   WritingIndexRoute: WritingIndexRoute,

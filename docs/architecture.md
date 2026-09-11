@@ -38,9 +38,8 @@ Git is the CMS. Content lives in the repo as data or MDX, never in a database.
 npm. There is a `package-lock.json` and no pnpm or yarn lockfile; keep it that
 way.
 
-## Not built yet
+## Content pipeline
 
-The MDX pipeline for Projects and Writing does not exist. The intended
-approach is `@content-collections/*`, which has an official TanStack Start
-quickstart and gives zod-typed frontmatter. `/projects` and `/writing` are
-placeholder routes until then.
+`.mdx` files compiled by `@mdx-js/rollup`, discovered by `import.meta.glob`,
+metadata exported as `export const meta` and validated with zod. See
+`docs/content.md` and ADR 0003 for why not content-collections.
