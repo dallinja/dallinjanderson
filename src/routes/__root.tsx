@@ -25,7 +25,26 @@ export const Route = createRootRoute({
       { title: SITE_TITLE },
       { name: 'description', content: SITE_DESCRIPTION },
     ],
-    links: [{ rel: 'stylesheet', href: appCss }],
+    links: [
+      { rel: 'stylesheet', href: appCss },
+      // The SVG carries its own prefers-color-scheme rules, so one file
+      // covers both themes. PNGs are the fallback for browsers that do not
+      // take SVG favicons.
+      { rel: 'icon', href: '/favicon.svg', type: 'image/svg+xml' },
+      {
+        rel: 'icon',
+        href: '/favicon-32.png',
+        sizes: '32x32',
+        type: 'image/png',
+      },
+      {
+        rel: 'icon',
+        href: '/favicon-96.png',
+        sizes: '96x96',
+        type: 'image/png',
+      },
+      { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' },
+    ],
     scripts: [{ children: themeInitScript }],
   }),
   shellComponent: RootDocument,

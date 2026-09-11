@@ -38,6 +38,14 @@ Three self-hosted variable faces, no more:
 Self-hosted via Fontsource. Do not add a font CDN: the site is prerendered and
 should not depend on another origin to render text.
 
+## The mark
+
+A 2×2 dot grid — three ink dots and one accent — in `public/favicon.svg`.
+The SVG carries its own `prefers-color-scheme` rules, so one file serves both
+themes; the PNGs are fallbacks. Its colours are the token values hardcoded as
+hex (`#FBFAF7` / `#1D1A17` / `#AD472E` light, `#120F0C` / `#EAE7E3` / `#E2805E`
+dark), so **if the palette changes, the favicon must be changed by hand.**
+
 ## Dark mode
 
 Three states — system (default), light, dark — controlled by `ThemeToggle` and
